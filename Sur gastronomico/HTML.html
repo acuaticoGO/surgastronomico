@@ -1,0 +1,691 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>El Sur Gastronómico</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Platos y bebidas típicas de los países de Sudamérica: ingredientes, preparación, origen, fotos y reseñas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap">
+<style>
+/* Concepto: sitio de una sola página, guía en 3 pasos (elige país → mira plato y bebida → opina).
+   Cálidos (rojo, naranja, amarillo) para comida; azul y verde reservados para bebidas.
+   Tipografía: Century (pedida en el proyecto); si el equipo no la tiene, entra Merriweather. */
+:root{
+  --bg:#FFF7EA; --surface:#FFFFFF; --surface2:#FCE9CB; --fg:#2B1A12; --muted:#6A4F40; --line:#E9D0AE;
+  --rojo:#C62F1B; --naranja:#C75A12; --amarillo:#F4B41A; --on-amarillo:#2B1A12;
+  --accent:#B3281A; --btn-bg:#C62F1B; --btn-fg:#FFFFFF; --focus:#1B6E9E;
+  --azul-bg:#1B6E9E; --azul-fg:#FFFFFF; --azul-tx:#175C84;
+  --verde-bg:#25804F; --verde-fg:#FFFFFF; --verde-tx:#1E6B42;
+  --ok-bg:#E3F4E8; --ok-fg:#14502E; --err-bg:#FBE3DE; --err-fg:#7A1D10;
+  --font:"Century","Century Schoolbook","New Century Schoolbook","C059","Merriweather",Georgia,serif;
+  --shadow:0 .25rem 1rem rgba(90,40,10,.12);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1D120D; --surface:#2A1A13; --surface2:#37241A; --fg:#FBEBD9; --muted:#D6BCA6; --line:#4D3427;
+    --accent:#FF9A82; --btn-bg:#F07058; --btn-fg:#2A0E07; --focus:#8CCBF0;
+    --azul-bg:#1F5A80; --azul-fg:#F2FAFF; --azul-tx:#8CCBF0;
+    --verde-bg:#1F6B45; --verde-fg:#F1FFF7; --verde-tx:#7FD9A4;
+    --ok-bg:#16301F; --ok-fg:#A9E8C0; --err-bg:#3C1913; --err-fg:#FFC3B6;
+    --shadow:0 .25rem 1rem rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1D120D; --surface:#2A1A13; --surface2:#37241A; --fg:#FBEBD9; --muted:#D6BCA6; --line:#4D3427;
+  --accent:#FF9A82; --btn-bg:#F07058; --btn-fg:#2A0E07; --focus:#8CCBF0;
+  --azul-bg:#1F5A80; --azul-fg:#F2FAFF; --azul-tx:#8CCBF0;
+  --verde-bg:#1F6B45; --verde-fg:#F1FFF7; --verde-tx:#7FD9A4;
+  --ok-bg:#16301F; --ok-fg:#A9E8C0; --err-bg:#3C1913; --err-fg:#FFC3B6;
+  --shadow:0 .25rem 1rem rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{font-size:100%;scroll-behavior:smooth;scroll-padding-top:5.5rem}
+@media (min-width:1600px){html{font-size:125%}}
+@media (min-width:2400px){html{font-size:175%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:1rem;line-height:1.65;margin:0}
+h1,h2,h3{line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:.19rem solid var(--focus);outline-offset:.19rem;border-radius:.25rem}
+.wrap{max-width:74rem;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+/* Cabecera */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:.2rem solid var(--rojo);box-shadow:0 .1rem .5rem rgba(90,40,10,.1)}
+.top::after{content:"";display:block;height:.25rem;background:linear-gradient(90deg,var(--rojo),var(--naranja),var(--amarillo))}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.5rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--fg);font-weight:900;font-size:1.1rem}
+.brand svg{width:2.9rem;height:2.9rem;flex:none}
+nav ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav a{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 .9rem;border-radius:2rem;text-decoration:none;color:var(--fg);font-weight:700;font-size:.95rem}
+nav a:hover{background:var(--surface2)}
+
+/* Portada */
+.hero{background:var(--surface2);border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:2rem;align-items:center;padding-block:2.5rem}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.5rem);font-weight:900;margin-block:.4rem .9rem}
+.hero h1 span{color:var(--accent)}
+.lead{font-size:1.15rem;max-width:38rem}
+.pasos{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.4rem 0 0;padding:0;list-style:none}
+.pasos li{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:.45rem .8rem;font-size:.92rem}
+.pasos b{color:var(--accent)}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:.4rem 1.2rem;border-radius:.6rem;border:.12rem solid var(--btn-bg);background:var(--btn-bg);color:var(--btn-fg);font-weight:700;text-decoration:none;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.sec{background:transparent;color:var(--fg);border-color:var(--fg)}
+.hero-logo{display:flex;justify-content:center}
+.hero-logo svg{width:min(100%,22rem);height:auto;filter:drop-shadow(0 .5rem 1rem rgba(120,40,10,.25))}
+
+/* Secciones */
+section{padding-block:3rem}
+.sec-head{display:grid;gap:.5rem;margin-bottom:1.6rem;max-width:44rem}
+.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:900}
+.sec-head p{color:var(--muted)}
+.sec-head .eyebrow{display:block}
+
+/* Selector de país */
+.paises{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:.6rem;margin:0;padding:0;list-style:none}
+.pais-btn{width:100%;min-height:3.4rem;display:flex;align-items:center;gap:.6rem;padding:.4rem .7rem;border:.12rem solid var(--line);border-radius:.8rem;background:var(--surface);cursor:pointer;text-align:left;font-weight:700}
+.pais-btn:hover{border-color:var(--naranja)}
+.pais-btn[aria-pressed="true"]{background:var(--btn-bg);border-color:var(--btn-bg);color:var(--btn-fg)}
+.flag{width:2rem;height:2rem;flex:none;border-radius:50%;display:block;box-shadow:0 0 0 .1rem rgba(0,0,0,.18)}
+.flag-lg{width:3.4rem;height:3.4rem}
+
+.panel-pais{margin-top:2rem}
+.panel-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.panel-head h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:900}
+.panel-head p{color:var(--muted);flex-basis:100%}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem}
+
+/* Tarjeta de comida */
+.card{display:flex;flex-direction:column;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:1rem;overflow:hidden;box-shadow:var(--shadow)}
+.card.plato{border-top:.45rem solid var(--rojo)}
+.card.bebida.az{border-top:.45rem solid var(--azul-bg)}
+.card.bebida.vd{border-top:.45rem solid var(--verde-bg)}
+.media{position:relative;aspect-ratio:4/3;max-width:100%;background:var(--surface2);overflow:hidden}
+.media img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:.4rem;text-align:center;padding:1rem;color:var(--fg)}
+.plato .ph{background:linear-gradient(135deg,var(--amarillo),#F08A2C 55%,var(--rojo));color:#2B1208}
+.az .ph{background:linear-gradient(135deg,#7CC4EA,var(--azul-bg));color:#06222F}
+.vd .ph{background:linear-gradient(135deg,#8EDCAE,var(--verde-bg));color:#052414}
+.ph svg{width:5.5rem;height:5.5rem}
+.ph small{font-size:.8rem;font-weight:700}
+.badge{position:absolute;left:.7rem;bottom:.7rem;display:flex;align-items:center;gap:.5rem;background:rgba(30,15,8,.82);color:#fff;border-radius:2rem;padding:.25rem .8rem .25rem .3rem;font-weight:700;font-size:.9rem}
+.badge .flag{width:1.7rem;height:1.7rem}
+.tipo{position:absolute;right:.7rem;top:.7rem;border-radius:2rem;padding:.2rem .8rem;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.plato .tipo{background:var(--rojo);color:#fff}
+.az .tipo{background:var(--azul-bg);color:var(--azul-fg)}
+.vd .tipo{background:var(--verde-bg);color:var(--verde-fg)}
+.cbody{display:grid;gap:.9rem;padding:1.2rem;min-width:0}
+.cbody h4{margin:0;font-size:1.4rem;font-weight:900;line-height:1.2}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.6rem;margin:0}
+.facts div{background:var(--surface2);border-radius:.6rem;padding:.5rem .7rem;min-width:0}
+.facts dt{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:0;font-weight:700;font-size:.95rem}
+.stars{color:#C98400;letter-spacing:.08em;white-space:nowrap}
+:root[data-theme="dark"] .stars{color:var(--amarillo)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stars{color:var(--amarillo)}}
+.avg{display:flex;align-items:center;gap:.5rem;font-size:.92rem;color:var(--muted);flex-wrap:wrap}
+.tabs{display:flex;gap:.3rem;flex-wrap:wrap;border-bottom:.12rem solid var(--line)}
+.tab{min-height:2.75rem;padding:0 .9rem;border:0;border-bottom:.22rem solid transparent;background:none;cursor:pointer;font-weight:700;border-radius:.4rem .4rem 0 0}
+.tab:hover{background:var(--surface2)}
+.tab[aria-selected="true"]{border-bottom-color:var(--rojo);color:var(--accent)}
+.az .tab[aria-selected="true"]{border-bottom-color:var(--azul-bg);color:var(--azul-tx)}
+.vd .tab[aria-selected="true"]{border-bottom-color:var(--verde-bg);color:var(--verde-tx)}
+.tpanel{min-height:9rem}
+.ings{display:flex;flex-wrap:wrap;gap:.45rem;margin:0;padding:0;list-style:none}
+.ings li{background:var(--surface2);border:1px solid var(--line);border-radius:2rem;padding:.2rem .8rem;font-size:.95rem}
+.steps{margin:0;padding-left:1.4rem;display:grid;gap:.5rem}
+.steps li::marker{font-weight:900;color:var(--accent)}
+.ops{display:grid;gap:.7rem;margin:0;padding:0;list-style:none}
+.ops li{border:1px solid var(--line);border-radius:.7rem;padding:.6rem .8rem;background:var(--bg)}
+.ops .meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.ops .meta b{font-weight:700}
+.tag{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--muted);color:var(--muted);border-radius:2rem;padding:0 .5rem}
+.ops p{margin-top:.2rem;overflow-wrap:anywhere}
+.note{font-size:.85rem;color:var(--muted)}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.btn.small{min-height:2.6rem;font-size:.92rem}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--naranja)}
+.az .btn.main{background:var(--azul-bg);border-color:var(--azul-bg);color:var(--azul-fg)}
+.vd .btn.main{background:var(--verde-bg);border-color:var(--verde-bg);color:var(--verde-fg)}
+.fileb{position:relative;overflow:hidden}
+.fileb input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.fileb:focus-within{outline:.19rem solid var(--focus);outline-offset:.19rem}
+
+/* Formularios */
+.formbox{background:var(--surface);border:1px solid var(--line);border-radius:1rem;padding:1.5rem;box-shadow:var(--shadow);max-width:46rem}
+form{display:grid;gap:1.1rem}
+.field{display:grid;gap:.35rem;min-width:0}
+.field label,.field legend{font-weight:700}
+.field input[type=text],.field input[type=email],.field select,.field textarea{width:100%;min-height:2.9rem;padding:.55rem .8rem;border:.12rem solid var(--line);border-radius:.6rem;background:var(--bg)}
+.field textarea{min-height:7rem;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--focus)}
+fieldset{border:0;padding:0;margin:0}
+.rate{display:flex;gap:.2rem;flex-direction:row}
+.rate label{cursor:pointer;font-size:2.2rem;line-height:1;padding:.1rem .15rem;color:var(--line);transition:color .1s}
+.rate label.on{color:#E0A100}
+.rate input{position:absolute;opacity:0;width:1px;height:1px}
+.rate label:has(input:focus-visible){outline:.19rem solid var(--focus);border-radius:.3rem}
+.hint{font-size:.85rem;color:var(--muted)}
+.msg{border-radius:.7rem;padding:.8rem 1rem;font-weight:700}
+.msg.ok{background:var(--ok-bg);color:var(--ok-fg)}
+.msg.err{background:var(--err-bg);color:var(--err-fg)}
+.msg .btn{margin-top:.6rem}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.band{background:var(--surface2);border-block:1px solid var(--line)}
+
+footer{background:#2B1208;color:#FBEBD9;padding-block:2rem}
+footer .wrap{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+footer p{font-size:.9rem;max-width:44rem}
+
+@media (max-width:52rem){
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero-logo{order:-1}
+  .hero-logo svg{width:min(70%,15rem)}
+  .cards,.two{grid-template-columns:minmax(0,1fr)}
+  section{padding-block:2.2rem}
+}
+@media (max-width:30rem){
+  .brand span{font-size:1rem}
+  .paises{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+
+<svg id="sprite" aria-hidden="true" focusable="false"></svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="El Sur Gastronómico, inicio">
+      <svg viewBox="0 0 200 200" role="img" aria-label="Logotipo"><use href="#logo" width="200" height="200"></use></svg>
+      <span>El Sur Gastronómico</span>
+    </a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#menu">Menú</a></li>
+        <li><a href="#resenas">Mi reseña</a></li>
+        <li><a href="#sugerencias">Sugerencias</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Sabores de Sudamérica</span>
+        <h1>El Sur <span>Gastronómico</span></h1>
+        <p class="lead">Aquí encuentras en un solo lugar el plato y la bebida típica de cada país de Sudamérica. Te contamos qué lleva, cómo se prepara, de dónde viene y qué opina la gente, como si te lo explicara alguien sentado a tu lado.</p>
+        <ol class="pasos" aria-label="Cómo usar la página">
+          <li><b>1.</b> Elige un país</li>
+          <li><b>2.</b> Mira su plato y su bebida</li>
+          <li><b>3.</b> Cuéntanos qué te pareció</li>
+        </ol>
+        <div class="cta">
+          <a class="btn" href="#menu">Ver el menú</a>
+          <a class="btn sec" href="#resenas">Escribir una reseña</a>
+        </div>
+      </div>
+      <div class="hero-logo">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Logotipo de El Sur Gastronómico: el planeta Tierra rodeado por las banderas de los países de Sudamérica"><use href="#logo" width="200" height="200"></use></svg>
+      </div>
+    </div>
+  </div>
+
+  <section id="menu" aria-labelledby="t-menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Menú por país</span>
+        <h2 id="t-menu">¿Qué país quieres probar hoy?</h2>
+        <p>Toca un país y verás su plato típico y su bebida. En cada tarjeta puedes ver los ingredientes, la preparación y las opiniones.</p>
+      </div>
+      <ul class="paises" id="paises"></ul>
+      <div class="panel-pais" id="panel-pais" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <div class="band">
+    <section id="resenas" aria-labelledby="t-res">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">Mi reseña</span>
+          <h2 id="t-res">Cuéntanos qué te pareció</h2>
+          <p>Escoge el plato o la bebida, ponle estrellas y escribe tu opinión. Las reseñas se muestran ordenadas de 5 a 1 estrellas.</p>
+        </div>
+        <div class="formbox">
+          <form id="f-res" novalidate>
+            <div class="field">
+              <label for="r-item">Plato o bebida</label>
+              <select id="r-item" name="item"></select>
+            </div>
+            <fieldset class="field">
+              <legend>Tu calificación</legend>
+              <div class="rate" id="rate" role="radiogroup" aria-label="Calificación de 1 a 5 estrellas"></div>
+            </fieldset>
+            <div class="two">
+              <div class="field">
+                <label for="r-nombre">Tu nombre</label>
+                <input type="text" id="r-nombre" name="nombre" maxlength="40" autocomplete="nickname" placeholder="Como quieras que aparezca">
+              </div>
+            </div>
+            <div class="field">
+              <label for="r-texto">Tu opinión</label>
+              <textarea id="r-texto" name="texto" maxlength="400" placeholder="¿Lo probaste? ¿Qué te gustó? ¿Lo recomendarías?"></textarea>
+              <span class="hint">Máximo 400 caracteres.</span>
+            </div>
+            <div><button class="btn" type="submit">Publicar mi reseña</button></div>
+            <div id="res-msg" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="sugerencias" aria-labelledby="t-sug">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Ayúdanos a mejorar</span>
+        <h2 id="t-sug">Sugerencias y errores</h2>
+        <p>¿Falta un plato? ¿Encontraste un dato mal o algo que no funciona? Escríbenos y lo revisamos.</p>
+      </div>
+      <div class="formbox">
+        <form id="f-sug" novalidate>
+          <fieldset class="field">
+            <legend>¿Qué quieres enviar?</legend>
+            <div class="actions">
+              <label><input type="radio" name="tipo" value="sugerencia" checked> Una sugerencia</label>
+              <label><input type="radio" name="tipo" value="error"> Reportar un error</label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="s-texto">Mensaje</label>
+            <textarea id="s-texto" name="texto" maxlength="800" placeholder="Cuéntanos con detalle. Si es un error, dinos en qué plato o sección lo viste."></textarea>
+          </div>
+          <div class="field">
+            <label for="s-mail">Correo (opcional, solo si quieres respuesta)</label>
+            <input type="email" id="s-mail" name="mail" autocomplete="email" placeholder="tucorreo@ejemplo.com">
+          </div>
+          <div><button class="btn" type="submit">Enviar</button></div>
+          <div id="sug-msg" role="status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <svg class="flag flag-lg" viewBox="0 0 200 200" style="border-radius:0;box-shadow:none" role="img" aria-label="Logotipo"><use href="#logo" width="200" height="200"></use></svg>
+    <p>El Sur Gastronómico. Las fechas de origen son aproximadas y, en varios platos, los países se disputan el origen. Las reseñas marcadas como «ejemplo» son de muestra.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Datos ---------- */
+var PAISES=[
+{id:"ar",n:"Argentina",intro:"Parrilla, charla y mate en ronda.",
+ plato:{n:"Asado argentino", foto:"img/asado.jpg", d:"El plan de domingo por excelencia: carne a las brasas, cocinada despacio y compartida con toda la mesa.",
+  ing:["Tira de asado o costillar","Vacío","Chorizo y morcilla","Sal gruesa","Leña o carbón","Chimichurri (perejil, ajo, orégano, ají molido, vinagre y aceite)"],
+  pas:["Prende la leña o el carbón y espera a que queden brasas sin llama alta, unos 45 minutos.","Pon la parrilla a 15 o 20 cm de las brasas y empieza por las carnes más gruesas, con el hueso hacia abajo.","Agrega sal gruesa cuando la carne ya esté tomando color.","Cocina de 2 a 3 horas, dándole la vuelta pocas veces. El chorizo y la morcilla entran al final.","Deja reposar unos minutos y sirve con chimichurri."],
+  o:"Pampa argentina (los gauchos)",f:"Siglos XVIII-XIX (aprox.)"},
+ bebida:{n:"Mate", foto:"img/mate.jpg", d:"Infusión de yerba que se comparte en ronda. Más que una bebida, es una excusa para conversar.",
+  ing:["Yerba mate","Agua caliente a 70-80 °C, sin hervir","Mate (el recipiente) y bombilla","Opcional: azúcar o hierbas"],
+  pas:["Llena el mate hasta tres cuartos con yerba.","Tápalo con la mano, inclínalo y sacúdelo para que el polvo quede a un lado.","Moja la parte baja con un poco de agua tibia y espera un momento.","Clava la bombilla y vierte el agua caliente sin mojar la yerba de arriba.","Toma todo el mate y pásalo a la siguiente persona. Se vuelve a cebar."],
+  o:"Pueblos guaraníes (Argentina, Paraguay y sur de Brasil)",f:"Antes del siglo XVI"}},
+{id:"bo",n:"Bolivia",intro:"Jugo en la masa y sabor andino en la taza.",
+ plato:{n:"Salteñas", foto:"img/saltenas.jpg", d:"Empanadas horneadas con relleno jugoso, dulce y picante a la vez. Se comen a media mañana, con cuidado de no derramar el jugo.",
+  ing:["Carne de res o pollo en cubos","Papa y arvejas","Cebolla","Ají amarillo o colorado","Comino y orégano","Gelatina sin sabor (para el jugo)","Harina, manteca y yema para la masa"],
+  pas:["Cocina la carne con cebolla, ají y especias. Mezcla con gelatina y enfría hasta que cuaje.","Haz la masa con harina, manteca, azúcar y agua tibia, y déjala reposar.","Estira, corta círculos y rellena con la carne, papa, arvejas y huevo duro.","Cierra con el repulgue en forma de trenza y pinta con yema.","Hornea a 220 °C de 15 a 20 minutos."],
+  o:"Bolivia (se la asocia con Potosí)",f:"Siglo XIX (aprox.)"},
+ bebida:{n:"Api morado", foto:"img/api.jpg", d:"Bebida espesa, caliente y dulce de maíz morado. Perfecta para las mañanas frías, con un pastel frito al lado.",
+  ing:["Harina de maíz morado","Canela en rama","Clavos de olor","Azúcar","Cáscara de naranja o limón","Agua"],
+  pas:["Hierve agua con la canela, los clavos y la cáscara de cítricos.","Disuelve la harina de maíz morado en agua fría y vierte despacio mientras bates.","Cocina de 20 a 30 minutos a fuego bajo, revolviendo, hasta que espese.","Endulza y sirve muy caliente."],
+  o:"Región andina de Bolivia",f:"Ancestral (época prehispánica)"}},
+{id:"br",n:"Brasil",intro:"Cocina de olla grande y fiesta en el vaso.",
+ plato:{n:"Feijoada", foto:"img/feijoada.jpg", d:"Guiso de frijol negro con carnes que se sirve los sábados con toda la familia. Se acompaña con arroz, col y naranja.",
+  ing:["Frijol negro","Carne seca, costilla y lomo de cerdo","Chorizo (linguiça) y tocino","Cebolla, ajo y laurel","Arroz blanco","Col rizada (couve)","Farofa y naranja en rodajas"],
+  pas:["Desala las carnes en agua toda la noche.","Cocina los frijoles con laurel hasta que estén casi tiernos.","Agrega las carnes y deja a fuego bajo de 1 hora y media a 2 horas.","Sofríe cebolla y ajo, y mezcla con un poco de frijol machacado para espesar.","Sirve con arroz, col salteada, farofa y naranja."],
+  o:"Brasil (raíces portuguesas y africanas; su origen exacto se discute)",f:"Siglos XVI-XVII (aprox.)"},
+ bebida:{n:"Caipirinha", foto:"img/caipirinha.jpg", d:"El coctel nacional de Brasil: fresco, ácido y bien directo.",
+  ing:["60 ml de cachaça","1 lima","2 cucharadas de azúcar","Hielo"],
+  pas:["Corta la lima en trozos y quita la parte blanca del centro.","Machácala con el azúcar en el fondo del vaso.","Agrega hielo y la cachaça.","Mezcla bien y sirve de inmediato."],
+  o:"Interior de São Paulo, Brasil",f:"Hacia 1918 (aprox.)"}},
+{id:"cl",n:"Chile",intro:"Maíz tierno y duraznos secos, sabores de campo.",
+ plato:{n:"Pastel de choclo", foto:"img/pastelchoclo.jpg", d:"Pino de carne cubierto con una pasta dulce de maíz tierno y dorado al horno. Es comida de verano y de domingo.",
+  ing:["Choclo (maíz tierno) molido","Carne molida","Cebolla","Pollo","Huevo duro","Aceitunas negras y pasas","Comino y albahaca","Azúcar para espolvorear"],
+  pas:["Prepara el pino: sofríe cebolla, agrega la carne, comino y sal.","Cocina el choclo molido con albahaca y sal hasta que espese.","En una fuente pon el pino, el pollo, el huevo, las aceitunas y las pasas.","Cubre con la pasta de choclo y espolvorea azúcar.","Hornea a 200 °C de 30 a 40 minutos, hasta que dore."],
+  o:"Zona central de Chile",f:"Siglos XVIII-XIX (aprox.)"},
+ bebida:{n:"Mote con huesillo", foto:"img/motehuesillo.jpg", d:"Bebida y postre a la vez: duraznos secos en almíbar con trigo cocido, bien helado.",
+  ing:["Mote (trigo pelado y cocido)","Huesillos (duraznos secos)","Azúcar","Canela","Agua"],
+  pas:["Remoja los huesillos toda la noche.","Cocínalos con azúcar y canela hasta que suelten su almíbar. Deja enfriar.","Cuece el mote y enjuágalo.","En un vaso pon el mote, un huesillo y el jugo muy frío."],
+  o:"Chile central",f:"Época colonial (aprox. siglo XVII)"}},
+{id:"co",n:"Colombia",intro:"Plato abundante y una bebida de caña.",
+ plato:{n:"Bandeja paisa", foto:"img/bandeja.jpg", d:"Un plato enorme para compartir (o para quedarse dormido después). Lleva de todo un poco y todo es sabroso.",
+  ing:["Frijoles rojos","Arroz blanco","Chicharrón","Carne molida","Chorizo","Huevo frito","Plátano maduro frito","Arepa y aguacate"],
+  pas:["Cocina los frijoles con cerdo hasta que estén cremosos.","Prepara el arroz blanco y la carne molida con hogao (cebolla y tomate).","Fríe el chicharrón, el chorizo, el plátano y el huevo.","Sirve todo junto en una bandeja, con arepa y aguacate."],
+  o:"Antioquia, Colombia",f:"Mediados del siglo XX (aprox.)"},
+ bebida:{n:"Aguapanela con limón", foto:"img/aguapanela.jpg", d:"Refresco sencillo de panela y limón, bueno para el calor. En clima frío se toma caliente.",
+  ing:["Panela","Agua","Limón","Hielo (opcional)"],
+  pas:["Rompe la panela en trozos.","Hierve el agua y disuelve la panela.","Cuela y deja entibiar.","Agrega jugo de limón y sirve con hielo, o caliente."],
+  o:"Zonas cañeras de Colombia",f:"Época colonial (siglos XVI-XVII)"}},
+{id:"ec",n:"Ecuador",intro:"Caldo de pescado de la costa y colada de los Andes.",
+ plato:{n:"Encebollado", foto:"img/encebollado.jpg", d:"Sopa de pescado con yuca y cebolla curtida. Los guayaquileños dicen que cura la resaca.",
+  ing:["Albacora o atún fresco","Yuca","Cebolla colorada","Tomate","Limón y cilantro","Comino, ajo y ají","Chifles o pan"],
+  pas:["Cocina el pescado con comino y ajo. Reserva el caldo.","Cocina la yuca en ese mismo caldo.","Haz un refrito con cebolla y tomate y mézclalo con el caldo.","Prepara el curtido: cebolla en rodajas con limón, sal y cilantro.","Sirve el caldo con yuca, pescado desmenuzado, curtido, chifles y limón."],
+  o:"Costa de Ecuador (Guayas)",f:"Siglos XIX-XX (aprox.)"},
+ bebida:{n:"Colada morada", foto:"img/coladamorada.jpg", d:"Bebida espesa de maíz morado y frutas que se toma en Día de Difuntos, con guaguas de pan.",
+  ing:["Harina de maíz morado","Mortiño o mora","Fresa y piña","Naranjilla","Canela, clavo y pimienta dulce","Hierbas aromáticas","Panela"],
+  pas:["Hierve agua con las especias, las hierbas y la panela. Cuela.","Disuelve la harina en agua fría y agrégala al líquido caliente revolviendo. Cocina 15 minutos.","Licúa las frutas, agrégalas y cocina 10 minutos más.","Sirve tibia."],
+  o:"Región andina de Ecuador",f:"Ancestral (época prehispánica)"}},
+{id:"gy",n:"Guyana",intro:"Sabores indígenas, caribeños y de especias.",
+ plato:{n:"Pepperpot", foto:"img/pepperpot.jpg", d:"Guiso oscuro y especiado de carne con cassareep. Es el plato de Navidad y mejora al recalentarlo al día siguiente.",
+  ing:["Carne de res o cerdo","Cassareep (jugo hervido de yuca amarga)","Ají","Canela y clavos","Tomillo","Cebolla","Azúcar morena","Pan para acompañar"],
+  pas:["Corta la carne y márinala con sal, ajo y tomillo.","En una olla agrega agua, cassareep, canela, clavos y ají.","Cocina a fuego bajo de 3 a 4 horas, hasta que esté oscuro y tierno.","Déjalo reposar y recaliéntalo al día siguiente.","Sirve con pan o arroz."],
+  o:"Guyana (pueblos amerindios)",f:"Época precolombina"},
+ bebida:{n:"Mauby", foto:"img/mauby.jpg", d:"Bebida fría de sabor entre amargo y dulce, hecha con corteza de un árbol caribeño.",
+  ing:["Corteza de mauby","Canela, clavo y anís estrellado","Azúcar","Agua","Hielo"],
+  pas:["Hierve la corteza con las especias de 20 a 30 minutos.","Cuela y deja enfriar.","Endulza al gusto.","Sirve bien frío."],
+  o:"Caribe (muy popular en Guyana)",f:"Época colonial (aprox.)"}},
+{id:"py",n:"Paraguay",intro:"Maíz, queso y yerba con hielo.",
+ plato:{n:"Sopa paraguaya", foto:"img/sopaparaguaya.jpg", d:"A pesar del nombre, es un pastel sólido de maíz y queso. Nunca falta en las fiestas.",
+  ing:["Harina de maíz","Queso fresco","Cebolla","Huevos","Leche","Manteca","Sal"],
+  pas:["Sofríe la cebolla en manteca.","Bate los huevos y mezcla con el queso desmenuzado, la leche y la cebolla.","Incorpora la harina de maíz y la sal hasta tener una masa espesa.","Vierte en una fuente engrasada.","Hornea a 180 °C unos 40 minutos, hasta que dore."],
+  o:"Paraguay",f:"Siglo XIX (aprox.); la leyenda la ubica en tiempos de Carlos Antonio López"},
+ bebida:{n:"Tereré", foto:"img/terere.jpg", d:"Yerba mate con agua helada y hierbas. Es la compañía de las tardes calurosas.",
+  ing:["Yerba mate","Agua muy fría con hielo","Guampa (vaso) y bombilla","Yuyos: menta, cedrón u otras hierbas"],
+  pas:["Llena dos tercios de la guampa con yerba y sacude.","Agrega las hierbas.","Vierte el agua helada por el borde.","Toma y vuelve a llenar con agua fría, siempre en ronda."],
+  o:"Pueblo guaraní (Paraguay)",f:"Ancestral; popularizado desde el siglo XIX (aprox.)"}},
+{id:"pe",n:"Perú",intro:"Limón, ají y un coctel famoso.",
+ plato:{n:"Ceviche", foto:"img/ceviche.jpg", d:"Pescado fresco «cocido» en limón. Se prepara al momento y se come enseguida, con leche de tigre incluida.",
+  ing:["Pescado fresco (corvina o lenguado)","Limones","Cebolla roja","Ají limo","Cilantro y ajo","Sal","Camote, choclo y cancha (maíz tostado)"],
+  pas:["Corta el pescado en cubos y sálalo.","Exprime los limones y mezcla con ají, ajo y cilantro: esa es la leche de tigre.","Agrega el pescado y la cebolla y deja marinar solo 2 o 3 minutos.","Sirve de inmediato con camote, choclo y cancha."],
+  o:"Costa del Perú",f:"Época prehispánica o colonial (se discute)"},
+ bebida:{n:"Pisco sour", foto:"img/pisco.jpg", d:"Coctel de pisco con limón y espuma. Perú y Chile se disputan el pisco, pero el sour limeño es un clásico.",
+  ing:["60 ml de pisco","30 ml de jugo de limón","20 ml de jarabe de goma","1 clara de huevo","Hielo","Gotas de amargo de angostura"],
+  pas:["Licúa o agita el pisco, el limón, el jarabe y la clara con hielo.","Cuela en un vaso.","Agrega unas gotas de amargo encima."],
+  o:"Lima, Perú",f:"Década de 1920 (aprox.)"}},
+{id:"sr",n:"Surinam",intro:"Mezcla de Java, África, Holanda y los Andes.",
+ plato:{n:"Pom", foto:"img/pom.jpg", d:"Pastel horneado de pollo y raíz rallada con cítricos. Es plato de celebraciones y de domingo.",
+  ing:["Pomtajer (raíz) o papa","Pollo","Jugo de naranja y limón","Cebolla y ajo","Tomate","Cebollín","Pimienta picante"],
+  pas:["Marina el pollo con ajo, cebolla y limón.","Ralla la raíz y mézclala con el jugo de cítricos y sal.","En una fuente pon una capa de raíz, el pollo y otra capa de raíz.","Hornea a 180 °C de 1 a 1 hora y media, hasta que dore.","Sirve con salsa picante."],
+  o:"Surinam (comunidades criolla y judía)",f:"Siglos XVIII-XIX (aprox.)"},
+ bebida:{n:"Dawet", foto:"img/dawet.jpg", d:"Bebida fría de fideos de arroz, leche de coco y jarabe de palma. Llegó con la comunidad javanesa.",
+  ing:["Harina de arroz","Hoja de pandan","Leche de coco","Jarabe de azúcar de palma","Hielo"],
+  pas:["Cocina la harina de arroz con agua y pandan hasta que espese.","Pásala por un colador a agua con hielo para formar hebras.","Hierve el azúcar de palma con agua hasta hacer jarabe.","En un vaso pon las hebras, el jarabe, la leche de coco y hielo."],
+  o:"Surinam (comunidad javanesa, con origen en Java)",f:"Desde 1890 (aprox.)"}},
+{id:"uy",n:"Uruguay",intro:"Un sándwich gigante y un trago con burbujas.",
+ plato:{n:"Chivito", foto:"img/chivito.jpg", d:"Sándwich de lomo con jamón, queso, panceta y huevo. Se pide con papas fritas y se come con las dos manos.",
+  ing:["Lomo de res en bife fino","Pan","Jamón","Panceta","Muzzarella","Huevo frito","Lechuga y tomate","Mayonesa y aceitunas"],
+  pas:["Cocina el bife en una plancha muy caliente.","Fríe la panceta y el huevo.","Abre el pan y unta mayonesa. Agrega lechuga y tomate.","Arma con el bife, jamón, muzzarella, panceta y huevo.","Sirve con papas fritas."],
+  o:"Punta del Este, Uruguay",f:"1944"},
+ bebida:{n:"Medio y medio", foto:"img/medio.jpg", d:"Mitad vino blanco, mitad espumante. Se toma bien frío, sobre todo con comida.",
+  ing:["Vino blanco seco","Espumante dulce"],
+  pas:["Enfría los dos vinos.","Sirve mitad y mitad en una copa.","Toma de inmediato, mientras las burbujas siguen."],
+  o:"Montevideo, Uruguay",f:"Fines del siglo XIX (aprox.)"}},
+{id:"ve",n:"Venezuela",intro:"Un plato completo y una chicha cremosa.",
+ plato:{n:"Pabellón criollo", foto:"img/pabellon.jpg", d:"El plato nacional: carne mechada, caraotas negras, arroz y tajadas. Cada ingrediente tiene su sabor y se combinan en el plato.",
+  ing:["Carne mechada (falda)","Caraotas negras","Arroz blanco","Tajadas de plátano maduro","Sofrito de cebolla, ají dulce, pimentón y ajo","Comino"],
+  pas:["Cocina la falda hasta que esté tierna y deshébrala.","Sofríe el sofrito y agrega la carne con tomate y comino.","Cocina las caraotas con sofrito y un toque de papelón.","Prepara el arroz blanco y fríe las tajadas.","Sirve todo junto. Si quieres, ponle un huevo frito encima."],
+  o:"Venezuela",f:"Siglo XIX (aprox.)"},
+ bebida:{n:"Chicha venezolana", foto:"img/chicha.jpg", d:"Bebida cremosa de arroz, leche y canela. Se vende en la calle y se toma muy fría.",
+  ing:["Arroz","Leche","Leche condensada","Azúcar","Canela","Vainilla"],
+  pas:["Hierve el arroz con agua y canela hasta que esté muy suave.","Licúa con la leche, la leche condensada y el azúcar.","Cuela y enfría.","Sirve bien fría con canela en polvo."],
+  o:"Venezuela",f:"Siglo XX (aprox.); variante de una bebida ancestral"}}
+];
+
+/* ---------- Utilidades ---------- */
+var $=function(s,r){return (r||document).querySelector(s)};
+function h(tag,props){
+  var e=document.createElement(tag);props=props||{};
+  Object.keys(props).forEach(function(k){var v=props[k];
+    if(k==="class")e.className=v;
+    else if(k.indexOf("on")===0)e.addEventListener(k.slice(2),v);
+    else if(v===true)e.setAttribute(k,"");
+    else if(v!==false&&v!=null)e.setAttribute(k,v);
+  });
+  for(var i=2;i<arguments.length;i++){var kids=[].concat(arguments[i]);
+    kids.forEach(function(c){if(c==null||c===false)return;e.append(c.nodeType?c:document.createTextNode(c))});}
+  return e;
+}
+function store(k,v){try{if(v===undefined){var r=localStorage.getItem(k);return r?JSON.parse(r):null}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function goTo(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})}
+
+/* ---------- Banderas y logotipo (SVG) ---------- */
+function star(cx,cy,R,r,fill){
+  var p=[];for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rad=i%2?r:R;p.push((cx+rad*Math.cos(a)).toFixed(2)+","+(cy+rad*Math.sin(a)).toFixed(2))}
+  return '<polygon points="'+p.join(" ")+'" fill="'+fill+'"/>';
+}
+function rects(cols,hs){var y=0,s="";cols.forEach(function(c,i){s+='<rect x="0" y="'+y+'" width="30" height="'+hs[i]+'" fill="'+c+'"/>';y+=hs[i]});return s}
+var FLAGS={
+ ar:'<rect width="30" height="30" fill="#74ACDF"/><rect y="10" width="30" height="10" fill="#fff"/><circle cx="15" cy="15" r="2.6" fill="#F6B40E"/>',
+ bo:rects(["#D52B1E","#F9E300","#007934"],[10,10,10]),
+ br:'<rect width="30" height="30" fill="#009C3B"/><polygon points="15,4 27,15 15,26 3,15" fill="#FFDF00"/><circle cx="15" cy="15" r="6" fill="#002776"/><path d="M9.6 14 Q15 12 20.4 16" stroke="#fff" stroke-width="1.2" fill="none"/>',
+ cl:'<rect width="30" height="30" fill="#fff"/><rect y="15" width="30" height="15" fill="#D52B1E"/><rect width="15" height="15" fill="#0039A6"/>'+star(7.5,7.5,4,1.6,"#fff"),
+ co:rects(["#FCD116","#003893","#CE1126"],[15,7.5,7.5]),
+ ec:rects(["#FCD116","#003893","#CE1126"],[15,7.5,7.5])+'<circle cx="15" cy="15" r="3.2" fill="#8B6B2E" stroke="#fff" stroke-width=".6"/>',
+ gy:'<rect width="30" height="30" fill="#009E49"/><polygon points="0,0 30,15 0,30" fill="#fff"/><polygon points="0,1.5 27,15 0,28.5" fill="#FCD116"/><polygon points="0,4.5 18,15 0,25.5" fill="#CE1126"/>',
+ py:rects(["#D52B1E","#fff","#0038A8"],[10,10,10])+'<circle cx="15" cy="15" r="3" fill="none" stroke="#2E7D32" stroke-width="1"/>',
+ pe:'<rect width="30" height="30" fill="#D91023"/><rect x="10" width="10" height="30" fill="#fff"/>',
+ sr:rects(["#377E3F","#fff","#B40A2D","#fff","#377E3F"],[6,3,12,3,6])+star(15,15,5.5,2.2,"#ECC81D"),
+ uy:(function(){var s='<rect width="30" height="30" fill="#fff"/>';for(var i=1;i<9;i+=2)s+='<rect y="'+(i*30/9).toFixed(2)+'" width="30" height="'+(30/9).toFixed(2)+'" fill="#0038A8"/>';return s+'<rect width="15" height="16.7" fill="#fff"/><circle cx="7.5" cy="8" r="3.4" fill="#FCD116"/>'})(),
+ ve:rects(["#FFCC00","#00247D","#CF142B"],[10,10,10])+'<circle cx="9" cy="17" r=".9" fill="#fff"/><circle cx="12" cy="15.6" r=".9" fill="#fff"/><circle cx="15" cy="15.2" r=".9" fill="#fff"/><circle cx="18" cy="15.6" r=".9" fill="#fff"/><circle cx="21" cy="17" r=".9" fill="#fff"/>'
+};
+function buildSprite(){
+  var s='<defs><clipPath id="clip-flag"><circle cx="15" cy="15" r="15"/></clipPath>'+
+    '<radialGradient id="g-globe" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#F8C23A"/><stop offset=".5" stop-color="#E4701F"/><stop offset="1" stop-color="#B72A18"/></radialGradient></defs>';
+  PAISES.forEach(function(p){s+='<symbol id="f-'+p.id+'" viewBox="0 0 30 30"><g clip-path="url(#clip-flag)">'+FLAGS[p.id]+'</g></symbol>'});
+  var logo='<symbol id="logo" viewBox="0 0 200 200">'+
+    '<circle cx="100" cy="100" r="99" fill="#FFF3DF" stroke="#C62F1B" stroke-width="2"/>'+
+    '<circle cx="100" cy="100" r="62" fill="none" stroke="#F4B41A" stroke-width="2" stroke-dasharray="2 5"/>'+
+    '<circle cx="100" cy="100" r="50" fill="url(#g-globe)"/>'+
+    '<g fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"><ellipse cx="100" cy="100" rx="22" ry="50"/><ellipse cx="100" cy="100" rx="50" ry="18"/><line x1="100" y1="50" x2="100" y2="150"/></g>'+
+    '<path transform="translate(76 71) scale(.5)" fill="#FFF0C2" d="M38 4L52 0L62 6L76 8L88 18L100 28L98 40L100 52L92 64L80 74L70 86L62 98L56 110L50 108L48 92L40 78L36 62L28 50L22 38L26 22L32 12Z"/>'+
+    '<path d="M62 70 A50 50 0 0 1 100 50" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  PAISES.forEach(function(p,i){
+    var a=(-90+i*30)*Math.PI/180,x=100+77*Math.cos(a)-13,y=100+77*Math.sin(a)-13;
+    logo+='<circle cx="'+(x+13).toFixed(1)+'" cy="'+(y+13).toFixed(1)+'" r="14" fill="#fff"/><use href="#f-'+p.id+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="26" height="26"/>';
+  });
+  s+=logo+'</symbol>';
+  $("#sprite").innerHTML=s;
+}
+function flagEl(id,big){
+  var w=h("span",{class:"flag"+(big?" flag-lg":""),"aria-hidden":"true"});
+  w.style.overflow="hidden";
+  w.innerHTML='<svg viewBox="0 0 30 30" width="100%" height="100%" style="display:block"><use href="#f-'+id+'" width="30" height="30"></use></svg>';
+  return w;
+}
+
+/* ---------- Reseñas ---------- */
+var POOL={
+ 5:["Buenísimo, auténtico y con mucho sabor. Lo repetiría sin pensarlo.","De lo mejor que he probado. Ideal para compartir.","Muy bien hecho y bien presentado. Totalmente recomendado."],
+ 4:["Muy rico, aunque a mí me faltó un poquito de punto.","Me gustó bastante. Lo recomiendo si te gustan los sabores marcados.","Sabroso y fácil de disfrutar. Volvería a pedirlo."],
+ 3:["Está bien, pero esperaba algo más intenso.","Normal. Rico, aunque no es mi favorito del menú."],
+ 2:["No fue lo mío, el sabor me pareció muy fuerte."]
+};
+var PATRONES=[[5,4,4],[5,5,3],[4,5,2],[5,4,3],[5,3,4]];
+function hash(s){var n=0;for(var i=0;i<s.length;i++)n=(n*31+s.charCodeAt(i))>>>0;return n}
+var ITEMS=[];
+PAISES.forEach(function(p,pi){
+  ["plato","bebida"].forEach(function(t){var it=p[t];it.id=p.id+"-"+t;it.t=t;it.pais=p;it.az=pi%2===0;ITEMS.push(it)});
+});
+var BYID={};ITEMS.forEach(function(i){BYID[i.id]=i});
+var SEED=[];
+ITEMS.forEach(function(it){
+  var hs=hash(it.id),pat=PATRONES[hs%PATRONES.length];
+  pat.forEach(function(r,i){var pool=POOL[r];SEED.push({id:it.id,nombre:"Reseña de ejemplo",estrellas:r,texto:pool[(hs+i)%pool.length],fecha:0,ejemplo:true})});
+});
+var userRev=store("sg-resenas")||[];
+if(!Array.isArray(userRev))userRev=[];
+function reviewsFor(id){
+  return SEED.concat(userRev).filter(function(r){return r.id===id}).sort(function(a,b){return b.estrellas-a.estrellas||b.fecha-a.fecha});
+}
+function stars(n,label){return h("span",{class:"stars",role:"img","aria-label":label||(n+" de 5 estrellas")},"★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n))}
+function avgOf(list){return list.length?list.reduce(function(s,r){return s+r.estrellas},0)/list.length:0}
+
+/* ---------- Menú ---------- */
+var sel=(store("sg-pais")||"co");
+if(!PAISES.some(function(p){return p.id===sel}))sel="co";
+var tabState={};
+
+function iconPlato(){return '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="22" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="34" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10v16M12 10v16M16 10v16M12 26v28" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>'}
+function iconVaso(){return '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 12h32l-4 42a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M18 26h28" stroke="currentColor" stroke-width="3"/><path d="M38 4l-4 14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'}
+
+function buildCard(it){
+  var p=it.pais,isP=it.t==="plato";
+  var cls="card "+it.t+(isP?"":(it.az?" az":" vd"));
+  var ph=h("div",{class:"ph"});ph.innerHTML=(isP?iconPlato():iconVaso())+'<small>Aún sin foto</small>';
+  var media=h("figure",{class:"media",style:"margin:0"},ph,
+    h("span",{class:"tipo"},isP?"Plato típico":"Bebida típica"),
+    h("figcaption",{class:"badge"},flagEl(p.id),p.n));
+  function setPhoto(src){
+    var old=media.querySelector("img");if(old)old.remove();
+    var img=h("img",{src:src,alt:it.n+", "+p.n,loading:"lazy"});
+    media.insertBefore(img,media.firstChild);ph.hidden=true;
+  }
+  if(it.foto)setPhoto(it.foto);
+
+  var avg=h("div",{class:"avg"});
+  var panel=h("div",{class:"tpanel",role:"tabpanel",id:"pn-"+it.id,tabindex:"0"});
+  var tabs=h("div",{class:"tabs",role:"tablist","aria-label":"Información de "+it.n});
+  var defs=[["ing","Ingredientes"],["pre","Preparación"],["op","Opiniones"]];
+  var btns={};
+  defs.forEach(function(d,i){
+    var b=h("button",{class:"tab",type:"button",role:"tab",id:"tb-"+it.id+"-"+d[0],"aria-controls":"pn-"+it.id,onclick:function(){tabState[it.id]=d[0];refresh()},
+      onkeydown:function(e){
+        var k=e.key,j=i;if(k==="ArrowRight")j=(i+1)%3;else if(k==="ArrowLeft")j=(i+2)%3;else return;
+        e.preventDefault();tabState[it.id]=defs[j][0];refresh();btns[defs[j][0]].focus();
+      }});
+    btns[d[0]]=b;tabs.append(b);
+  });
+  function refresh(){
+    var cur=tabState[it.id]||"ing",list=reviewsFor(it.id),a=avgOf(list);
+    defs.forEach(function(d){
+      var b=btns[d[0]];b.setAttribute("aria-selected",d[0]===cur?"true":"false");b.tabIndex=d[0]===cur?0:-1;
+      b.textContent=d[1]+(d[0]==="op"?" ("+list.length+")":"");
+    });
+    panel.setAttribute("aria-labelledby","tb-"+it.id+"-"+cur);
+    avg.replaceChildren(stars(Math.round(a),a.toFixed(1)+" de 5 estrellas"),h("span",{},a.toFixed(1)+" de 5 · "+list.length+" opiniones"));
+    panel.replaceChildren();
+    if(cur==="ing"){
+      panel.append(h("ul",{class:"ings"},it.ing.map(function(x){return h("li",{},x)})));
+    }else if(cur==="pre"){
+      panel.append(h("ol",{class:"steps"},it.pas.map(function(x){return h("li",{},x)})));
+    }else{
+      panel.append(h("p",{class:"note",style:"margin-bottom:.6rem"},"Ordenadas de 5 a 1 estrellas."),
+        h("ul",{class:"ops"},list.map(function(r){
+          return h("li",{},h("div",{class:"meta"},stars(r.estrellas),h("b",{},r.nombre),r.ejemplo?h("span",{class:"tag"},"Ejemplo"):null),h("p",{},r.texto));
+        })));
+    }
+  }
+  var card=h("article",{class:cls,id:"card-"+it.id},media,
+    h("div",{class:"cbody"},
+      h("h4",{},it.n),avg,h("p",{},it.d),
+      h("dl",{class:"facts"},
+        h("div",{},h("dt",{},"País de origen"),h("dd",{},it.o)),
+        h("div",{},h("dt",{},"Fecha aproximada"),h("dd",{},it.f))),
+      tabs,panel,
+      h("div",{class:"actions"},
+        h("button",{class:"btn small main",type:"button",onclick:function(){writeReview(it.id)}},"Escribir mi reseña"),
+        h("label",{class:"btn small ghost fileb"},"Agregar foto",h("input",{type:"file",accept:"image/*","aria-label":"Agregar una foto de "+it.n,onchange:function(e){
+          var f=e.target.files&&e.target.files[0];if(!f||f.type.indexOf("image/")!==0)return;
+          var rd=new FileReader();rd.onload=function(){setPhoto(rd.result)};rd.readAsDataURL(f);
+        }})))));
+  card._refresh=refresh;refresh();
+  return card;
+}
+
+function renderPais(){
+  var p=PAISES.filter(function(x){return x.id===sel})[0];
+  var panel=$("#panel-pais");
+  panel.replaceChildren(
+    h("div",{class:"panel-head"},flagEl(p.id,true),h("h3",{},p.n),h("p",{},p.intro)),
+    h("div",{class:"cards"},buildCard(p.plato),buildCard(p.bebida)));
+  [].forEach.call($("#paises").querySelectorAll("button"),function(b){b.setAttribute("aria-pressed",b.dataset.id===sel?"true":"false")});
+}
+function selectPais(id,scroll){
+  sel=id;store("sg-pais",id);renderPais();
+  if(scroll)goTo("panel-pais");
+}
+function renderPaises(){
+  var ul=$("#paises");
+  PAISES.forEach(function(p){
+    ul.append(h("li",{},h("button",{class:"pais-btn",type:"button","data-id":p.id,"aria-pressed":"false",onclick:function(){selectPais(p.id,window.innerWidth<830)}},flagEl(p.id),p.n)));
+  });
+}
+function refreshAll(){[].forEach.call(document.querySelectorAll(".card"),function(c){c._refresh&&c._refresh()})}
+
+/* ---------- Reseña personal ---------- */
+var rating=0;
+function buildRate(){
+  var box=$("#rate");
+  for(var i=1;i<=5;i++){
+    (function(n){
+      var inp=h("input",{type:"radio",name:"estrellas",value:n,id:"st-"+n,onchange:function(){setRating(n)}});
+      box.append(h("label",{for:"st-"+n,title:n+(n===1?" estrella":" estrellas"),onmouseenter:function(){paint(n)},onmouseleave:function(){paint(rating)}},h("span",{"aria-hidden":"true"},"★"),h("span",{class:"sr"},n+(n===1?" estrella":" estrellas")),inp));
+    })(i);
+  }
+}
+function paint(n){[].forEach.call($("#rate").querySelectorAll("label"),function(l,i){l.classList.toggle("on",i<n)})}
+function setRating(n){rating=n;paint(n)}
+function buildSelect(){
+  var s=$("#r-item");
+  PAISES.forEach(function(p){
+    var g=h("optgroup",{label:p.n});
+    [p.plato,p.bebida].forEach(function(it){g.append(h("option",{value:it.id},(it.t==="plato"?"Plato: ":"Bebida: ")+it.n))});
+    s.append(g);
+  });
+}
+function writeReview(id){
+  $("#r-item").value=id;goTo("resenas");
+  setTimeout(function(){var f=$("#r-nombre");if(f)f.focus({preventScroll:true})},reduce?0:450);
+}
+function showMsg(box,kind,text,extra){
+  box.replaceChildren();
+  var m=h("div",{class:"msg "+kind},text);if(extra)m.append(document.createElement("br"),extra);
+  box.append(m);
+}
+function onReview(e){
+  e.preventDefault();
+  var box=$("#res-msg"),id=$("#r-item").value,nombre=$("#r-nombre").value.trim()||"Anónimo",texto=$("#r-texto").value.trim();
+  if(!rating){showMsg(box,"err","Elige de 1 a 5 estrellas para publicar tu reseña.");return}
+  if(texto.length<5){showMsg(box,"err","Escribe una opinión de al menos 5 caracteres.");$("#r-texto").focus();return}
+  userRev.push({id:id,nombre:nombre.slice(0,40),estrellas:rating,texto:texto.slice(0,400),fecha:Date.now()});
+  store("sg-resenas",userRev);
+  tabState[id]="op";refreshAll();
+  var it=BYID[id];
+  showMsg(box,"ok","¡Gracias! Tu reseña de «"+it.n+"» ya aparece en el menú.",
+    h("button",{class:"btn small ghost",type:"button",onclick:function(){selectPais(it.pais.id,false);tabState[id]="op";refreshAll();goTo("card-"+id)}},"Verla en el menú"));
+  e.target.reset();$("#r-item").value=id;setRating(0);
+}
+
+/* ---------- Sugerencias ---------- */
+function onSug(e){
+  e.preventDefault();
+  var box=$("#sug-msg"),f=e.target,texto=f.texto.value.trim(),mail=f.mail.value.trim();
+  if(texto.length<10){showMsg(box,"err","Cuéntanos un poco más (mínimo 10 caracteres).");f.texto.focus();return}
+  if(mail&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){showMsg(box,"err","Ese correo no parece válido. Revísalo o déjalo vacío.");f.mail.focus();return}
+  var list=store("sg-mensajes")||[];if(!Array.isArray(list))list=[];
+  list.push({tipo:f.tipo.value,texto:texto.slice(0,800),mail:mail,fecha:Date.now()});store("sg-mensajes",list);
+  showMsg(box,"ok",f.tipo.value==="error"?"Gracias por avisarnos del error. Quedó guardado en este navegador.":"Gracias por tu sugerencia. Quedó guardada en este navegador.");
+  f.reset();
+}
+
+/* ---------- Inicio ---------- */
+buildSprite();renderPaises();buildRate();buildSelect();renderPais();
+$("#f-res").addEventListener("submit",onReview);
+$("#f-sug").addEventListener("submit",onSug);
+})();
+</script>
+
+</body></html>
